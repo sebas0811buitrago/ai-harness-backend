@@ -2,4 +2,7 @@
 ruff
 mypy
 pytest
+pytest-asyncio
 httpx
+testcontainers[postgres]
+import-linter

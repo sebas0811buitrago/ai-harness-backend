@@ -34,6 +34,17 @@ Two tiers; test behavior, not implementation, test should verify  be resilient t
 - Assert on outcomes (return values, errors, persisted state, HTTP responses), never internals.
 - Cover each use case's happy path + domain errors, each handler's contract, authorization, and cross-module composition. Skip trivial getters and Pydantic-enforced invariants.
 
+### Naming
+
+- **Unit tests** — name reflects the capability under test (use-case-shaped). Form: `test_<verb>_<noun>_<scenario>`.
+  - `test_create_invoice_rejects_duplicate_external_id`
+  - `test_settle_invoice_marks_status_paid_when_amount_matches`
+- **Integration tests** — phrased as an EARS (Easy Approach to Requirements Syntax) requirement. The two forms you'll use most:
+  - **Event-driven**: `test_when_<event>_<endpoint>_shall_<response>`
+    - `test_when_principal_is_admin_post_invoices_shall_return_201_with_location`
+  - **Unwanted behavior**: `test_if_<unwanted>_<endpoint>_shall_<response>`
+    - `test_if_external_id_duplicates_post_invoices_shall_return_409`
+
 ## Observability
 
 Logging is structured via `structlog` (JSON in prod, console in dev). injected via `Depends`.

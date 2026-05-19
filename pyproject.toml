@@ -1,3 +1,45 @@
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.importlinter]
+root_packages = ["app", "shared", "features"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "domain is a pure sink - no framework imports"
+type = "forbidden"
+source_modules = ["features.todos.domain"]
+forbidden_modules = ["fastapi", "sqlmodel", "sqlalchemy"]
+
+[[tool.importlinter.contracts]]
+name = "usecases do not depend on framework or adapters"
+type = "forbidden"
+source_modules = ["features.todos.usecases"]
+forbidden_modules = ["fastapi", "sqlmodel", "sqlalchemy", "features.todos.adapters"]
+
+[[tool.importlinter.contracts]]
+name = "handlers do not import adapters directly"
+type = "forbidden"
+source_modules = ["features.todos.handlers"]
+forbidden_modules = ["features.todos.adapters"]
+ignore_imports = [
+    "features.todos.handlers.router -> features.todos.deps",
+]
+
+[[tool.importlinter.contracts]]
+name = "adapters do not import handlers"
+type = "forbidden"
+source_modules = ["features.todos.adapters"]
+forbidden_modules = ["features.todos.handlers"]
+
+[[tool.importlinter.contracts]]
+name = "shared does not import features"
+type = "forbidden"
+source_modules = ["shared"]
+forbidden_modules = ["features"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"

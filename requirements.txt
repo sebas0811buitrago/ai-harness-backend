@@ -1,5 +1,10 @@
 fastapi
 uvicorn[standard]
 pydantic
+pydantic-settings
 sqlmodel
+asyncpg
+greenlet
 psycopg2-binary
+alembic
+structlog

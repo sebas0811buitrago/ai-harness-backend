@@ -21,6 +21,7 @@ env/
 ENV/
 .python-version
 
+  
 # Environment variables / secrets
 .env
 .env.*
