@@ -19,13 +19,14 @@ def _problem(
     status: int,
     type_slug: str,
     title: str,
+    detail: str | None = None,
     extra: dict | None = None,
 ) -> JSONResponse:
     body: dict = {
         "type": type_slug,
         "title": title,
         "status": status,
-        "detail": str(exc),
+        "detail": detail if detail is not None else str(exc),
         "instance": str(request.url.path),
     }
     if extra:
@@ -68,5 +69,6 @@ def register(app: FastAPI) -> None:
             422,
             "validation-error",
             "Validation Error",
+            detail="Request validation failed.",
             extra={"errors": errors},
         )

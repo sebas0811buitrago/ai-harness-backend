@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from features.todos.deps import (
     CreateTodoDep,
@@ -33,7 +33,7 @@ PrincipalDep = Annotated[Principal, Depends(get_current_principal)]
 
 
 class CreateTodoRequest(BaseModel):
-    title: str
+    title: str = Field(max_length=200)
     description: str | None = None
 
 
